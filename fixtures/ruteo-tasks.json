@@ -1,0 +1,65 @@
+[
+  {
+    "task_id": 88213,
+    "state": "IN_PROGRESS_ARRIVED",
+    "action_type": "bike_pick_up",
+    "station": { "id": 412, "name": "Pl. Catalunya" },
+    "user": { "id": 77, "full_name": "Jordi Ejemplo Ficticio" },
+    "truck": "VAN-03",
+    "updated": "03/11/2026 08:50:00"
+  },
+  {
+    "task_id": 88219,
+    "state": "IN_PROGRESS_ARRIVED",
+    "action_type": "station_rebalancing",
+    "station": { "id": 108, "name": "Av. Diagonal - Glòries" },
+    "user": { "id": 51, "full_name": "Pau Ejemplo Inventado" },
+    "truck": "VAN-01",
+    "updated": "04/11/2026 08:02:41"
+  },
+  {
+    "task_id": 88220,
+    "state": "NOT_FOUND",
+    "action_type": "bike_pick_up",
+    "station": { "id": 233, "name": "Sants Estació" },
+    "user": { "id": 77, "full_name": "Jordi Ejemplo Ficticio" },
+    "truck": "VAN-03",
+    "updated": "04/11/2026 08:40:05"
+  },
+  {
+    "task_id": 88231,
+    "state": "IN_PROGRESS_RESERVED",
+    "action_type": "dock_maintenance_check",
+    "station": { "id": 412, "name": "Pl. Catalunya" },
+    "user": null,
+    "truck": null,
+    "updated": "04/11/2026 09:55:12"
+  },
+  {
+    "task_id": 88213,
+    "state": "DONE",
+    "action_type": "bike_pick_up",
+    "station": { "id": 412, "name": "Pl. Catalunya" },
+    "user": { "id": 77, "full_name": "Jordi Ejemplo Ficticio" },
+    "truck": "VAN-03",
+    "updated": "03/11/2026 09:14:00"
+  },
+  {
+    "task_id": 88225,
+    "state": "DONE",
+    "action_type": "wheel_repair",
+    "station": { "id": 17, "name": "Pg. de Gràcia - Aragó" },
+    "user": { "id": 64, "full_name": "Marta Ejemplo Supuesta" },
+    "truck": "VAN-02",
+    "updated": "02/11/2026 18:30:00"
+  },
+  {
+    "task_id": 87990,
+    "state": "DONE",
+    "action_type": "bike_pick_up",
+    "station": { "id": 233, "name": "Sants Estació" },
+    "user": { "id": 64, "full_name": "Marta Ejemplo Supuesta" },
+    "truck": "VAN-02",
+    "updated": "28/10/2026 17:21:09"
+  }
+]
