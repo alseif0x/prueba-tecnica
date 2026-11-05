@@ -97,6 +97,47 @@ $pruebas = [
         $encontradas = $ids($proveedor(new FakeRuteo(CLAVE, failures: [503]))->recentTasks());
         $comprobar(in_array(88219, $encontradas, true), 'Tras un 503 puntual debería devolver las tareas');
     },
+
+    // --- Pruebas añadidas ---
+
+    'De una tarea repetida se queda la versión más reciente' => function () use ($proveedor, $tarea, $comprobar) {
+        $tareas = $proveedor(new FakeRuteo(CLAVE))->recentTasks();
+        $comprobar($tarea($tareas, 88213)->status === TaskStatus::Hecha, 'La 88213 pasó a DONE a las 09:14; debería estar hecha');
+    },
+
+    'Los subestados IN_PROGRESS_* cuentan como en curso' => function () use ($proveedor, $tarea, $comprobar) {
+        $tareas = $proveedor(new FakeRuteo(CLAVE))->recentTasks();
+        $comprobar($tarea($tareas, 88231)->status === TaskStatus::EnCurso, 'La 88231 (IN_PROGRESS_RESERVED) debería estar en curso');
+    },
+
+    'Un estado desconocido sale sin filtro pero en ningún filtro' => function () use ($proveedor, $ids, $tarea, $comprobar) {
+        $ruteo = new FakeRuteo(CLAVE);
+        $todas = $proveedor($ruteo)->recentTasks();
+        $comprobar($tarea($todas, 88220)->status === null, 'La 88220 (NOT_FOUND) no debería clasificarse');
+        $comprobar($tarea($todas, 88220)->ruteoState === 'NOT_FOUND', 'Debería conservar el estado original de Ruteo');
+        foreach (TaskStatus::cases() as $estado) {
+            $filtradas = $ids($proveedor(new FakeRuteo(CLAVE))->recentTasks($estado));
+            $comprobar(! in_array(88220, $filtradas, true), "La 88220 no debería salir al filtrar por {$estado->name}");
+        }
+    },
+
+    'La clave no viaja en cabeceras Bearer' => function () use ($proveedor, $comprobar) {
+        $ruteo = new FakeRuteo(CLAVE);
+        $proveedor($ruteo)->recentTasks();
+        $comprobar(! isset($ruteo->requests[0]['headers']['Authorization']), 'No debería mandar Authorization: Ruteo responde 401');
+    },
+
+    'Se rinde tras varios 503 seguidos' => function () use ($proveedor, $comprobar) {
+        $ruteo = new FakeRuteo(CLAVE, failures: [503, 503, 503, 503]);
+        $lanzada = false;
+        try {
+            $proveedor($ruteo)->recentTasks();
+        } catch (Reto\RuteoException) {
+            $lanzada = true;
+        }
+        $comprobar($lanzada, 'Con Ruteo caído debería lanzar RuteoException');
+        $comprobar(count($ruteo->requests) === 3, 'Debería intentarlo 3 veces; lo ha hecho ' . count($ruteo->requests));
+    },
 ];
 
 $fallidas = 0;
